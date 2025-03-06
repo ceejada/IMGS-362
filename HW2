@@ -1,0 +1,431 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOMD8wgVzo+2uXFOk7vXtf5"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install d2l==1.0.3"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1000
+        },
+        "id": "byF2jruUUS-S",
+        "outputId": "25f19ecf-a9c9-4cef-812f-d810b3217b3c"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting d2l==1.0.3\n",
+            "  Downloading d2l-1.0.3-py3-none-any.whl.metadata (556 bytes)\n",
+            "Collecting jupyter==1.0.0 (from d2l==1.0.3)\n",
+            "  Downloading jupyter-1.0.0-py2.py3-none-any.whl.metadata (995 bytes)\n",
+            "Collecting numpy==1.23.5 (from d2l==1.0.3)\n",
+            "  Downloading numpy-1.23.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.3 kB)\n",
+            "Collecting matplotlib==3.7.2 (from d2l==1.0.3)\n",
+            "  Downloading matplotlib-3.7.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.6 kB)\n",
+            "Collecting matplotlib-inline==0.1.6 (from d2l==1.0.3)\n",
+            "  Downloading matplotlib_inline-0.1.6-py3-none-any.whl.metadata (2.8 kB)\n",
+            "Collecting requests==2.31.0 (from d2l==1.0.3)\n",
+            "  Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)\n",
+            "Collecting pandas==2.0.3 (from d2l==1.0.3)\n",
+            "  Downloading pandas-2.0.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)\n",
+            "Collecting scipy==1.10.1 (from d2l==1.0.3)\n",
+            "  Downloading scipy-1.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (58 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m58.9/58.9 kB\u001b[0m \u001b[31m2.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hRequirement already satisfied: notebook in /usr/local/lib/python3.11/dist-packages (from jupyter==1.0.0->d2l==1.0.3) (6.5.5)\n",
+            "Collecting qtconsole (from jupyter==1.0.0->d2l==1.0.3)\n",
+            "  Downloading qtconsole-5.6.1-py3-none-any.whl.metadata (5.0 kB)\n",
+            "Requirement already satisfied: jupyter-console in /usr/local/lib/python3.11/dist-packages (from jupyter==1.0.0->d2l==1.0.3) (6.1.0)\n",
+            "Requirement already satisfied: nbconvert in /usr/local/lib/python3.11/dist-packages (from jupyter==1.0.0->d2l==1.0.3) (7.16.6)\n",
+            "Requirement already satisfied: ipykernel in /usr/local/lib/python3.11/dist-packages (from jupyter==1.0.0->d2l==1.0.3) (6.17.1)\n",
+            "Requirement already satisfied: ipywidgets in /usr/local/lib/python3.11/dist-packages (from jupyter==1.0.0->d2l==1.0.3) (7.7.1)\n",
+            "Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (1.3.1)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (0.12.1)\n",
+            "Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (4.56.0)\n",
+            "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (1.4.8)\n",
+            "Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (24.2)\n",
+            "Requirement already satisfied: pillow>=6.2.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (11.1.0)\n",
+            "Collecting pyparsing<3.1,>=2.3.1 (from matplotlib==3.7.2->d2l==1.0.3)\n",
+            "  Downloading pyparsing-3.0.9-py3-none-any.whl.metadata (4.2 kB)\n",
+            "Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.11/dist-packages (from matplotlib==3.7.2->d2l==1.0.3) (2.8.2)\n",
+            "Requirement already satisfied: traitlets in /usr/local/lib/python3.11/dist-packages (from matplotlib-inline==0.1.6->d2l==1.0.3) (5.7.1)\n",
+            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas==2.0.3->d2l==1.0.3) (2025.1)\n",
+            "Requirement already satisfied: tzdata>=2022.1 in /usr/local/lib/python3.11/dist-packages (from pandas==2.0.3->d2l==1.0.3) (2025.1)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests==2.31.0->d2l==1.0.3) (3.4.1)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/dist-packages (from requests==2.31.0->d2l==1.0.3) (3.10)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests==2.31.0->d2l==1.0.3) (2.3.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests==2.31.0->d2l==1.0.3) (2025.1.31)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.7->matplotlib==3.7.2->d2l==1.0.3) (1.17.0)\n",
+            "Requirement already satisfied: debugpy>=1.0 in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (1.8.0)\n",
+            "Requirement already satisfied: ipython>=7.23.1 in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (7.34.0)\n",
+            "Requirement already satisfied: jupyter-client>=6.1.12 in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (6.1.12)\n",
+            "Requirement already satisfied: nest-asyncio in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (1.6.0)\n",
+            "Requirement already satisfied: psutil in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (5.9.5)\n",
+            "Requirement already satisfied: pyzmq>=17 in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (24.0.1)\n",
+            "Requirement already satisfied: tornado>=6.1 in /usr/local/lib/python3.11/dist-packages (from ipykernel->jupyter==1.0.0->d2l==1.0.3) (6.4.2)\n",
+            "Requirement already satisfied: ipython-genutils~=0.2.0 in /usr/local/lib/python3.11/dist-packages (from ipywidgets->jupyter==1.0.0->d2l==1.0.3) (0.2.0)\n",
+            "Requirement already satisfied: widgetsnbextension~=3.6.0 in /usr/local/lib/python3.11/dist-packages (from ipywidgets->jupyter==1.0.0->d2l==1.0.3) (3.6.10)\n",
+            "Requirement already satisfied: jupyterlab-widgets>=1.0.0 in /usr/local/lib/python3.11/dist-packages (from ipywidgets->jupyter==1.0.0->d2l==1.0.3) (3.0.13)\n",
+            "Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /usr/local/lib/python3.11/dist-packages (from jupyter-console->jupyter==1.0.0->d2l==1.0.3) (3.0.50)\n",
+            "Requirement already satisfied: pygments in /usr/local/lib/python3.11/dist-packages (from jupyter-console->jupyter==1.0.0->d2l==1.0.3) (2.18.0)\n",
+            "Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (4.13.3)\n",
+            "Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0->nbconvert->jupyter==1.0.0->d2l==1.0.3) (6.2.0)\n",
+            "Requirement already satisfied: defusedxml in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.7.1)\n",
+            "Requirement already satisfied: jinja2>=3.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (3.1.5)\n",
+            "Requirement already satisfied: jupyter-core>=4.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (5.7.2)\n",
+            "Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.3.0)\n",
+            "Requirement already satisfied: markupsafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (3.0.2)\n",
+            "Requirement already satisfied: mistune<4,>=2.0.3 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (3.1.2)\n",
+            "Requirement already satisfied: nbclient>=0.5.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.10.2)\n",
+            "Requirement already satisfied: nbformat>=5.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (5.10.4)\n",
+            "Requirement already satisfied: pandocfilters>=1.4.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert->jupyter==1.0.0->d2l==1.0.3) (1.5.1)\n",
+            "Requirement already satisfied: argon2-cffi in /usr/local/lib/python3.11/dist-packages (from notebook->jupyter==1.0.0->d2l==1.0.3) (23.1.0)\n",
+            "Requirement already satisfied: Send2Trash>=1.8.0 in /usr/local/lib/python3.11/dist-packages (from notebook->jupyter==1.0.0->d2l==1.0.3) (1.8.3)\n",
+            "Requirement already satisfied: terminado>=0.8.3 in /usr/local/lib/python3.11/dist-packages (from notebook->jupyter==1.0.0->d2l==1.0.3) (0.18.1)\n",
+            "Requirement already satisfied: prometheus-client in /usr/local/lib/python3.11/dist-packages (from notebook->jupyter==1.0.0->d2l==1.0.3) (0.21.1)\n",
+            "Requirement already satisfied: nbclassic>=0.4.7 in /usr/local/lib/python3.11/dist-packages (from notebook->jupyter==1.0.0->d2l==1.0.3) (1.2.0)\n",
+            "Collecting qtpy>=2.4.0 (from qtconsole->jupyter==1.0.0->d2l==1.0.3)\n",
+            "  Downloading QtPy-2.4.3-py3-none-any.whl.metadata (12 kB)\n",
+            "Requirement already satisfied: webencodings in /usr/local/lib/python3.11/dist-packages (from bleach!=5.0.0->bleach[css]!=5.0.0->nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.5.1)\n",
+            "Requirement already satisfied: tinycss2<1.5,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0->nbconvert->jupyter==1.0.0->d2l==1.0.3) (1.4.0)\n",
+            "Requirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.11/dist-packages (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (75.1.0)\n",
+            "Collecting jedi>=0.16 (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3)\n",
+            "  Downloading jedi-0.19.2-py2.py3-none-any.whl.metadata (22 kB)\n",
+            "Requirement already satisfied: decorator in /usr/local/lib/python3.11/dist-packages (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (4.4.2)\n",
+            "Requirement already satisfied: pickleshare in /usr/local/lib/python3.11/dist-packages (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (0.7.5)\n",
+            "Requirement already satisfied: backcall in /usr/local/lib/python3.11/dist-packages (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (0.2.0)\n",
+            "Requirement already satisfied: pexpect>4.3 in /usr/local/lib/python3.11/dist-packages (from ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (4.9.0)\n",
+            "Requirement already satisfied: platformdirs>=2.5 in /usr/local/lib/python3.11/dist-packages (from jupyter-core>=4.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (4.3.6)\n",
+            "Requirement already satisfied: notebook-shim>=0.2.3 in /usr/local/lib/python3.11/dist-packages (from nbclassic>=0.4.7->notebook->jupyter==1.0.0->d2l==1.0.3) (0.2.4)\n",
+            "Requirement already satisfied: fastjsonschema>=2.15 in /usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (2.21.1)\n",
+            "Requirement already satisfied: jsonschema>=2.6 in /usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (4.23.0)\n",
+            "Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/dist-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->jupyter-console->jupyter==1.0.0->d2l==1.0.3) (0.2.13)\n",
+            "Requirement already satisfied: ptyprocess in /usr/local/lib/python3.11/dist-packages (from terminado>=0.8.3->notebook->jupyter==1.0.0->d2l==1.0.3) (0.7.0)\n",
+            "Requirement already satisfied: argon2-cffi-bindings in /usr/local/lib/python3.11/dist-packages (from argon2-cffi->notebook->jupyter==1.0.0->d2l==1.0.3) (21.2.0)\n",
+            "Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4->nbconvert->jupyter==1.0.0->d2l==1.0.3) (2.6)\n",
+            "Requirement already satisfied: typing-extensions>=4.0.0 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4->nbconvert->jupyter==1.0.0->d2l==1.0.3) (4.12.2)\n",
+            "Requirement already satisfied: parso<0.9.0,>=0.8.4 in /usr/local/lib/python3.11/dist-packages (from jedi>=0.16->ipython>=7.23.1->ipykernel->jupyter==1.0.0->d2l==1.0.3) (0.8.4)\n",
+            "Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (25.1.0)\n",
+            "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (2024.10.1)\n",
+            "Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.36.2)\n",
+            "Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert->jupyter==1.0.0->d2l==1.0.3) (0.23.1)\n",
+            "Requirement already satisfied: jupyter-server<3,>=1.8 in /usr/local/lib/python3.11/dist-packages (from notebook-shim>=0.2.3->nbclassic>=0.4.7->notebook->jupyter==1.0.0->d2l==1.0.3) (1.24.0)\n",
+            "Requirement already satisfied: cffi>=1.0.1 in /usr/local/lib/python3.11/dist-packages (from argon2-cffi-bindings->argon2-cffi->notebook->jupyter==1.0.0->d2l==1.0.3) (1.17.1)\n",
+            "Requirement already satisfied: pycparser in /usr/local/lib/python3.11/dist-packages (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi->notebook->jupyter==1.0.0->d2l==1.0.3) (2.22)\n",
+            "Requirement already satisfied: anyio<4,>=3.1.0 in /usr/local/lib/python3.11/dist-packages (from jupyter-server<3,>=1.8->notebook-shim>=0.2.3->nbclassic>=0.4.7->notebook->jupyter==1.0.0->d2l==1.0.3) (3.7.1)\n",
+            "Requirement already satisfied: websocket-client in /usr/local/lib/python3.11/dist-packages (from jupyter-server<3,>=1.8->notebook-shim>=0.2.3->nbclassic>=0.4.7->notebook->jupyter==1.0.0->d2l==1.0.3) (1.8.0)\n",
+            "Requirement already satisfied: sniffio>=1.1 in /usr/local/lib/python3.11/dist-packages (from anyio<4,>=3.1.0->jupyter-server<3,>=1.8->notebook-shim>=0.2.3->nbclassic>=0.4.7->notebook->jupyter==1.0.0->d2l==1.0.3) (1.3.1)\n",
+            "Downloading d2l-1.0.3-py3-none-any.whl (111 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m111.7/111.7 kB\u001b[0m \u001b[31m4.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading jupyter-1.0.0-py2.py3-none-any.whl (2.7 kB)\n",
+            "Downloading matplotlib-3.7.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.6 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m11.6/11.6 MB\u001b[0m \u001b[31m65.4 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading matplotlib_inline-0.1.6-py3-none-any.whl (9.4 kB)\n",
+            "Downloading numpy-1.23.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.1 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m17.1/17.1 MB\u001b[0m \u001b[31m74.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pandas-2.0.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.2 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m12.2/12.2 MB\u001b[0m \u001b[31m88.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading requests-2.31.0-py3-none-any.whl (62 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m62.6/62.6 kB\u001b[0m \u001b[31m4.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading scipy-1.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (34.1 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m34.1/34.1 MB\u001b[0m \u001b[31m12.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pyparsing-3.0.9-py3-none-any.whl (98 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m98.3/98.3 kB\u001b[0m \u001b[31m6.0 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading qtconsole-5.6.1-py3-none-any.whl (125 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m125.0/125.0 kB\u001b[0m \u001b[31m8.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading QtPy-2.4.3-py3-none-any.whl (95 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m95.0/95.0 kB\u001b[0m \u001b[31m6.4 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading jedi-0.19.2-py2.py3-none-any.whl (1.6 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.6/1.6 MB\u001b[0m \u001b[31m54.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: requests, qtpy, pyparsing, numpy, matplotlib-inline, jedi, scipy, pandas, matplotlib, qtconsole, jupyter, d2l\n",
+            "  Attempting uninstall: requests\n",
+            "    Found existing installation: requests 2.32.3\n",
+            "    Uninstalling requests-2.32.3:\n",
+            "      Successfully uninstalled requests-2.32.3\n",
+            "  Attempting uninstall: pyparsing\n",
+            "    Found existing installation: pyparsing 3.2.1\n",
+            "    Uninstalling pyparsing-3.2.1:\n",
+            "      Successfully uninstalled pyparsing-3.2.1\n",
+            "  Attempting uninstall: numpy\n",
+            "    Found existing installation: numpy 1.26.4\n",
+            "    Uninstalling numpy-1.26.4:\n",
+            "      Successfully uninstalled numpy-1.26.4\n",
+            "  Attempting uninstall: matplotlib-inline\n",
+            "    Found existing installation: matplotlib-inline 0.1.7\n",
+            "    Uninstalling matplotlib-inline-0.1.7:\n",
+            "      Successfully uninstalled matplotlib-inline-0.1.7\n",
+            "  Attempting uninstall: scipy\n",
+            "    Found existing installation: scipy 1.13.1\n",
+            "    Uninstalling scipy-1.13.1:\n",
+            "      Successfully uninstalled scipy-1.13.1\n",
+            "  Attempting uninstall: pandas\n",
+            "    Found existing installation: pandas 2.2.2\n",
+            "    Uninstalling pandas-2.2.2:\n",
+            "      Successfully uninstalled pandas-2.2.2\n",
+            "  Attempting uninstall: matplotlib\n",
+            "    Found existing installation: matplotlib 3.10.0\n",
+            "    Uninstalling matplotlib-3.10.0:\n",
+            "      Successfully uninstalled matplotlib-3.10.0\n",
+            "\u001b[31mERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\n",
+            "google-colab 1.0.0 requires pandas==2.2.2, but you have pandas 2.0.3 which is incompatible.\n",
+            "google-colab 1.0.0 requires requests==2.32.3, but you have requests 2.31.0 which is incompatible.\n",
+            "albucore 0.0.23 requires numpy>=1.24.4, but you have numpy 1.23.5 which is incompatible.\n",
+            "mizani 0.13.1 requires pandas>=2.2.0, but you have pandas 2.0.3 which is incompatible.\n",
+            "scikit-image 0.25.2 requires numpy>=1.24, but you have numpy 1.23.5 which is incompatible.\n",
+            "scikit-image 0.25.2 requires scipy>=1.11.4, but you have scipy 1.10.1 which is incompatible.\n",
+            "bigframes 1.38.0 requires numpy>=1.24.0, but you have numpy 1.23.5 which is incompatible.\n",
+            "xarray 2025.1.2 requires numpy>=1.24, but you have numpy 1.23.5 which is incompatible.\n",
+            "xarray 2025.1.2 requires pandas>=2.1, but you have pandas 2.0.3 which is incompatible.\n",
+            "imbalanced-learn 0.13.0 requires numpy<3,>=1.24.3, but you have numpy 1.23.5 which is incompatible.\n",
+            "plotnine 0.14.5 requires matplotlib>=3.8.0, but you have matplotlib 3.7.2 which is incompatible.\n",
+            "plotnine 0.14.5 requires pandas>=2.2.0, but you have pandas 2.0.3 which is incompatible.\n",
+            "langchain 0.3.19 requires numpy<2,>=1.26.4; python_version < \"3.12\", but you have numpy 1.23.5 which is incompatible.\n",
+            "blosc2 3.2.0 requires numpy>=1.26, but you have numpy 1.23.5 which is incompatible.\n",
+            "cvxpy 1.6.2 requires scipy>=1.11.0, but you have scipy 1.10.1 which is incompatible.\n",
+            "treescope 0.1.9 requires numpy>=1.25.2, but you have numpy 1.23.5 which is incompatible.\n",
+            "chex 0.1.89 requires numpy>=1.24.1, but you have numpy 1.23.5 which is incompatible.\n",
+            "albumentations 2.0.4 requires numpy>=1.24.4, but you have numpy 1.23.5 which is incompatible.\n",
+            "tensorflow 2.18.0 requires numpy<2.1.0,>=1.26.0, but you have numpy 1.23.5 which is incompatible.\n",
+            "jax 0.4.33 requires numpy>=1.24, but you have numpy 1.23.5 which is incompatible.\n",
+            "pymc 5.20.1 requires numpy>=1.25.0, but you have numpy 1.23.5 which is incompatible.\n",
+            "jaxlib 0.4.33 requires numpy>=1.24, but you have numpy 1.23.5 which is incompatible.\n",
+            "numba 0.61.0 requires numpy<2.2,>=1.24, but you have numpy 1.23.5 which is incompatible.\u001b[0m\u001b[31m\n",
+            "\u001b[0mSuccessfully installed d2l-1.0.3 jedi-0.19.2 jupyter-1.0.0 matplotlib-3.7.2 matplotlib-inline-0.1.6 numpy-1.23.5 pandas-2.0.3 pyparsing-3.0.9 qtconsole-5.6.1 qtpy-2.4.3 requests-2.31.0 scipy-1.10.1\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "application/vnd.colab-display-data+json": {
+              "pip_warning": {
+                "packages": [
+                  "matplotlib",
+                  "matplotlib_inline",
+                  "mpl_toolkits",
+                  "numpy",
+                  "pandas",
+                  "requests"
+                ]
+              },
+              "id": "9e3231e7da4e4872bae63e33f0578611"
+            }
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 350
+        },
+        "id": "6b6C-IfjTZyK",
+        "outputId": "b706f8f2-3572-4ae4-c55f-9e22aa558e2f"
+      },
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ModuleNotFoundError",
+          "evalue": "No module named 'd2l'",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-1-a03e834f1f62>\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mtensorflow\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mkeras\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mkeras\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mpandas\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0md2l\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mtensorflow\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0md2l\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'd2l'",
+            "",
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0;32m\nNOTE: If your import is failing due to a missing package, you can\nmanually install dependencies using either !pip or !apt.\n\nTo view examples of installing some common dependencies, click the\n\"Open Examples\" button below.\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n"
+          ],
+          "errorDetails": {
+            "actions": [
+              {
+                "action": "open_url",
+                "actionText": "Open Examples",
+                "url": "/notebooks/snippets/importing_libraries.ipynb"
+              }
+            ]
+          }
+        }
+      ],
+      "source": [
+        "import tensorflow as tf\n",
+        "import tensorflow.keras as keras\n",
+        "import pandas as pd\n",
+        "from d2l import tensorflow as d2l"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "(x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "bQFswPBNTfs1",
+        "outputId": "5b7a9bb2-36c3-427a-fc1c-d39e9eabe36a"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz\n",
+            "\u001b[1m29515/29515\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m0s\u001b[0m 0us/step\n",
+            "Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-images-idx3-ubyte.gz\n",
+            "\u001b[1m26421880/26421880\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m0s\u001b[0m 0us/step\n",
+            "Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-labels-idx1-ubyte.gz\n",
+            "\u001b[1m5148/5148\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m0s\u001b[0m 0us/step\n",
+            "Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-images-idx3-ubyte.gz\n",
+            "\u001b[1m4422102/4422102\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m0s\u001b[0m 0us/step\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "num_classes = 256\n",
+        "batch_size = 10"
+      ],
+      "metadata": {
+        "id": "1O_sv1R2Vc6z"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x_train, x_test = x_train / 255.0, x_test / 255.0\n",
+        "x_train = x_train.reshape(-1, 28, 28, 1)  # Reshape to (batch, height, width, channels)\n",
+        "x_test = x_test.reshape(-1, 28, 28, 1)\n",
+        "\n",
+        "y_train = tf.keras.utils.to_categorical(y_train, num_classes)\n",
+        "y_test = tf.keras.utils.to_categorical(y_test, num_classes)"
+      ],
+      "metadata": {
+        "id": "xG_21RveXL4w"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from tensorflow.keras.models import Sequential\n",
+        "from tensorflow.keras.layers import (\n",
+        "    Dense,\n",
+        "    Conv2D,\n",
+        "    MaxPool2D,\n",
+        "    Flatten,\n",
+        "    Dropout,\n",
+        "    BatchNormalization,\n",
+        ")\n",
+        "\n",
+        "model = Sequential()\n",
+        "model.add(Conv2D(75, (3, 3), strides=1, padding=\"same\", activation=\"relu\",\n",
+        "                 input_shape=(28, 28, 1)))\n",
+        "model.add(BatchNormalization())\n",
+        "model.add(MaxPool2D((2, 2), strides=2, padding=\"same\"))\n",
+        "model.add(Conv2D(50, (3, 3), strides=1, padding=\"same\", activation=\"relu\"))\n",
+        "model.add(Dropout(0.2))\n",
+        "model.add(BatchNormalization())\n",
+        "model.add(MaxPool2D((2, 2), strides=2, padding=\"same\"))\n",
+        "model.add(Conv2D(25, (3, 3), strides=1, padding=\"same\", activation=\"relu\"))\n",
+        "model.add(BatchNormalization())\n",
+        "model.add(MaxPool2D((2, 2), strides=2, padding=\"same\"))\n",
+        "model.add(Flatten())\n",
+        "model.add(Dense(units=512, activation=\"relu\"))\n",
+        "model.add(Dropout(0.3))\n",
+        "model.add(Dense(units=num_classes, activation=\"softmax\"))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Na_Hn43jUB2j",
+        "outputId": "90370335-f35e-4d71-d9f3-3a6a9a144815"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.11/dist-packages/keras/src/layers/convolutional/base_conv.py:107: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.\n",
+            "  super().__init__(activity_regularizer=activity_regularizer, **kwargs)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model.compile(loss=\"categorical_crossentropy\", metrics=[\"accuracy\"])\n",
+        "model.fit(x_train, y_train, epochs=10, batch_size=batch_size, validation_data=(x_test, y_test))\n",
+        "test_loss, test_acc = model.evaluate(x_test, y_test)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "7W-BbolfV3UM",
+        "outputId": "12b76108-5138-47f7-f19e-451e3197fb22"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch 1/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m284s\u001b[0m 47ms/step - accuracy: 0.8038 - loss: 0.6103 - val_accuracy: 0.8397 - val_loss: 0.4537\n",
+            "Epoch 2/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m307s\u001b[0m 44ms/step - accuracy: 0.8824 - loss: 0.3434 - val_accuracy: 0.8957 - val_loss: 0.2871\n",
+            "Epoch 3/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m330s\u001b[0m 46ms/step - accuracy: 0.9005 - loss: 0.2813 - val_accuracy: 0.8980 - val_loss: 0.2868\n",
+            "Epoch 4/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m312s\u001b[0m 44ms/step - accuracy: 0.9086 - loss: 0.2595 - val_accuracy: 0.9091 - val_loss: 0.2834\n",
+            "Epoch 5/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m329s\u001b[0m 45ms/step - accuracy: 0.9135 - loss: 0.2456 - val_accuracy: 0.9050 - val_loss: 0.2718\n",
+            "Epoch 6/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m311s\u001b[0m 43ms/step - accuracy: 0.9172 - loss: 0.2370 - val_accuracy: 0.9081 - val_loss: 0.2584\n",
+            "Epoch 7/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m261s\u001b[0m 43ms/step - accuracy: 0.9206 - loss: 0.2329 - val_accuracy: 0.9081 - val_loss: 0.2648\n",
+            "Epoch 8/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m261s\u001b[0m 44ms/step - accuracy: 0.9204 - loss: 0.2349 - val_accuracy: 0.9103 - val_loss: 0.2718\n",
+            "Epoch 9/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m260s\u001b[0m 43ms/step - accuracy: 0.9233 - loss: 0.2308 - val_accuracy: 0.9055 - val_loss: 0.2603\n",
+            "Epoch 10/10\n",
+            "\u001b[1m6000/6000\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m262s\u001b[0m 44ms/step - accuracy: 0.9239 - loss: 0.2258 - val_accuracy: 0.9040 - val_loss: 0.3212\n",
+            "\u001b[1m313/313\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m9s\u001b[0m 28ms/step - accuracy: 0.9025 - loss: 0.3290\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
